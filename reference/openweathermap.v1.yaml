@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: openweathermap
+  version: '1.0'
+  description: ''
+  contact:
+    name: xubin
+    email: ioryxb@163.com
+    url: 'https://github.com/ioryxb'
+  termsOfService: 'https://github.com/ioryxb'
+  license:
+    url: 'https://ioryxb/license.md'
+    name: upup xubin
+servers:
+  - url: 'http://api.openweathermap.org/data/2.5'
+paths:
+  /weather:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Weather endpoints.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: zip
+        - schema:
+            type: string
+          in: query
+          name: units
+        - $ref: '#/components/parameters/lon'
+      description: 'Access current weather data for any location on Earth including over 200,000 cities! Current weather is frequently updated based on global models and data from more than 40,000 weather stations.'
+      operationId: CurrentWeatherData
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productId:
+                    type: string
+                    description: a unic Id
+                  city:
+                    type: string
+                    description: a unic city
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unauthorized_response'
+components:
+  schemas:
+    unauthorized_response:
+      title: unauthorized_response
+      type: object
+      description: 401 error
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+  securitySchemes: {}
+  parameters:
+    lon:
+      name: lon
+      in: query
+      description: '**Longitude**. *Example: 139*. Longitude coordinate of the location of your interest. Must use with `lat`.'
+      schema:
+        type: string
